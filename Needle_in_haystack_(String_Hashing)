@@ -1,0 +1,77 @@
+#include<bits/stdc++.h>
+#define rep(i,n) for (int i = 0; i < n; i++)
+#define mod 1000000007
+#define pb push_back
+#define ff first
+#define ss second
+#define ii pair<int,int>
+#define vi vector<int>
+#define vii vector<ii>
+#define ll long long 
+#define INF 1000000000
+#define nl '\n'
+const double PI = 3.141592653589793238460;
+typedef std::complex<double> Complex;
+typedef std::valarray<Complex> CArray;
+using namespace std;
+
+ll gcd(ll a, ll b){
+    if(b==0){
+        return a;
+    }
+    return gcd(b,a%b);
+}
+vector<ll>v;
+long long binpow(long long a, long long b) {
+    long long res = 1;
+    while (b > 0) {
+        if (b & 1)
+            res = (res * a)%mod;
+        a = (a * a)%mod;
+        b >>= 1;
+    }
+    return res%mod;
+}
+void solve(){
+    string s;
+    cin>>s;
+    string t;
+    cin>>t;
+    ll hash=0;
+    ll dp[s.size()+1];
+    dp[0]=s[0]-'a'+1;
+    ll p=31;
+    ll m=31;
+    ll inv[s.size()];
+    inv[0]=1;
+    for(int i=1;i<s.size();i++){
+        dp[i]=(dp[i-1]+(s[i]-'a'+1)*m)%mod;        
+        inv[i]=(binpow(m,mod-2));
+        m=(m*p)%mod;
+    }
+    ll  mul=1;
+    for(int i=0;i<t.size();i++){
+        hash+=(t[i]-'a'+1)*mul%mod;
+        mul=(mul*31)%mod;
+    }
+
+    for(int i=0;i<=s.size()-t.size();i++){
+
+            
+        if(hash==(dp[i+t.size()-1]-dp[i-1])*inv[i]%mod and i>0){
+            cout<<i<<" ";
+        }
+        if(hash==((dp[i+t.size()-1])*inv[i])%mod and i==0){
+            cout<<i<<" ";
+        }
+    }
+    
+    
+}
+
+int main(){
+    int T=1;
+    cin>>T;
+    while(T--)
+    solve();
+}
